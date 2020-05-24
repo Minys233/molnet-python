@@ -6,7 +6,6 @@ import molnet.load_functions
 from molnet.splitter import ScaffoldSplitter, RandomSplitter
 from pathlib import Path
 
-__version__ = 0.1
 
 molnet_list = list(molnet_config.keys())
 
