@@ -6,6 +6,16 @@ This simple library could load and split data according to [MoleculeNet](heeps:/
 
 This code is first written for my own, since it is tedious that you need to code the same data-loading thing every time. So, if you find this before you get to work on molecule property prediction tasks, you're lucky and please enjoy yourself!
 
+# Installation
+
+Currently, this package could be installed only by pip, via
+
+```bash
+pip install molnet-python
+```
+
+**NOTE**: one of dependencies, rdkit package could be installed only by `conda`, so please install rdkit before or after install this package.
+
 # How to use
 
 You could get splitted datasets directly from `load` function. The supported dataset names is listed in `molnet_config.py` file, except `PCBA`, all other datasets are supported. 
@@ -28,3 +38,4 @@ datasets = molnet.load(name, datadir, save_whole_dataset=False,
 - `seed`: seed for numpy (this is useless when dataset need Scaffold split)
 
 If you want to use lower-level functions, please review the code. I promise it won't take you more than half an hour :-)
+

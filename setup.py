@@ -12,6 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Minys233/molnet-python.git",
+    install_requires=['requests', 'pandas', 'numpy', 'tqdm', 'cloudpickle'],
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
