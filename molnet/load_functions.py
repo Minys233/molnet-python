@@ -21,7 +21,7 @@ class MolDataset:
         :param y: N * num_tasks matrix
         """
         self.mols = np.asarray(mols)
-        self.y = np.asarray(y).squeeze()
+        self.y = np.asarray(y)
         self.w = None
         self._filter(based_on=self.mols, what=None)
         assert len(self.mols) == len(self.y)
@@ -96,19 +96,19 @@ def load_QM7(datadir, save=False):
     return dataset
 
 
-def load_QM7b(datadir, save=False):
-    prefix = Path(datadir) / molnet_config['QM7b'].relative_path
-    download('QM7b', datadir)
-    cache_file = prefix / ('QM7b' + '.bin')
-    if cache_file.is_file():
-        dataset = cloudpickle.load(open(cache_file, 'rb'))
-        return dataset
-    df = pd.read_csv(prefix / molnet_config['QM7b'].files[0])
-    mols = np.array([Chem.MolFromSmiles(i) for i in tqdm.tqdm(df['smiles'])])
-    dataset = MolDataset(mols, df['u0_atom'].to_numpy())
-    if save:
-        cloudpickle.dump(dataset, open(cache_file, 'wb'))
-    return dataset
+# def load_QM7b(datadir, save=False):
+#     prefix = Path(datadir) / molnet_config['QM7b'].relative_path
+#     download('QM7b', datadir)
+#     cache_file = prefix / ('QM7b' + '.bin')
+#     if cache_file.is_file():
+#         dataset = cloudpickle.load(open(cache_file, 'rb'))
+#         return dataset
+#     df = pd.read_csv(prefix / molnet_config['QM7b'].files[0])
+#     mols = np.array([Chem.MolFromSmiles(i) for i in tqdm.tqdm(df['smiles'])])
+#     dataset = MolDataset(mols, df['u0_atom'].to_numpy())
+#     if save:
+#         cloudpickle.dump(dataset, open(cache_file, 'wb'))
+#     return dataset
 
 
 def load_QM8(datadir, save=False):
@@ -179,4 +179,4 @@ load_SIDER = load_single_csv('SIDER')
 load_ClinTox = load_single_csv('ClinTox')
 
 if __name__ == '__main__':
-    print(load_QM7b('../'))
+    print(load_QM9('../'))

@@ -77,11 +77,14 @@ class Splitter(object):
         train_inds, valid_inds, test_inds = self.split(dataset, frac_train=frac_train,
                                                        frac_test=frac_test, frac_valid=frac_valid, seed=seed)
         train_dataset = dataset.subset(train_inds)
-        if frac_valid != 0:
+        if len(valid_inds) != 0:
             valid_dataset = dataset.subset(valid_inds)
         else:
             valid_dataset = None
-        test_dataset = dataset.subset(test_inds)
+        if len(test_inds) != 0:
+            test_dataset = dataset.subset(test_inds)
+        else:
+            test_dataset = None
         self.save_split('train_valid_test.split', (train_dataset, valid_dataset, test_dataset))
         return train_dataset, valid_dataset, test_dataset
 

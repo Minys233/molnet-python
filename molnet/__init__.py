@@ -4,6 +4,7 @@ from molnet.molnet_config import molnet_config
 #     load_SIDER, load_ClinTox
 import molnet.load_functions
 from molnet.splitter import ScaffoldSplitter, RandomSplitter
+# from molnet.convert2graph import
 from pathlib import Path
 
 
@@ -60,8 +61,10 @@ def load(name, datadir, save_whole_dataset=False, save_split=False, split=None, 
             train_dataset.calc_weight_classification()
         else:
             train_dataset.cal_weight_basic()
-        valid_dataset.cal_weight_basic()
-        test_dataset.cal_weight_basic()
+        if valid_dataset is not None:
+            valid_dataset.cal_weight_basic()
+        if test_dataset is not None:
+            test_dataset.cal_weight_basic()
         res = (train_dataset, valid_dataset, test_dataset)
 
     elif split_method == 'train_test_split':
@@ -70,7 +73,8 @@ def load(name, datadir, save_whole_dataset=False, save_split=False, split=None, 
             train_dataset.calc_weight_classification()
         else:
             train_dataset.cal_weight_basic()
-        test_dataset.cal_weight_basic()
+        if test_dataset is not None:
+            test_dataset.cal_weight_basic()
         res = (train_dataset, test_dataset)
     else:
         assert split_method == 'k_fold_split'
