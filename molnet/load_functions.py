@@ -22,6 +22,9 @@ class MolDataset:
         """
         self.mols = np.asarray(mols)
         self.y = np.asarray(y)
+        if len(self.y.shape) == 1:
+            self.y = np.expand_dims(self.y, axis=1)  # make this shape (N, 1)
+        assert len(self.y.shape) == 2
         self.w = None
         self._filter(based_on=self.mols, what=None)
         assert len(self.mols) == len(self.y)
