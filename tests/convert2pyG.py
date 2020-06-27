@@ -13,3 +13,6 @@ for idx, atom in enumerate(mol.GetAtoms()):
 
 data = cvt.mol_to_pyG_data(mol)
 print(data)
+print(data.x.dtype)
+print(data.edge_attr.dtype)
+print(data.edge_index.dtype)

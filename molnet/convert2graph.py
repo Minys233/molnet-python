@@ -143,7 +143,7 @@ def mol_to_pyG_data(mol, explicit_H=False, use_chirality=True, gasteiger_charges
     for atom in mol.GetAtoms():
         atom_feature = atom_features(atom, explicit_H=explicit_H, use_chirality=use_chirality)
         atom_features_list.append(atom_feature)
-    x = torch.tensor(np.array(atom_features_list), dtype=torch.float)
+    x = torch.tensor(np.array(atom_features_list), dtype=torch.float32)
     # bonds, we will force molecules have at least 2 atoms
     edges_list = []
     edge_features_list = []
@@ -161,7 +161,7 @@ def mol_to_pyG_data(mol, explicit_H=False, use_chirality=True, gasteiger_charges
 
     # data.edge_attr: Edge feature matrix with shape [num_edges, num_edge_features]
     edge_attr = torch.tensor(np.array(edge_features_list),
-                             dtype=torch.float)
+                             dtype=torch.float32)
     data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
     return data
 
