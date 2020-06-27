@@ -226,8 +226,11 @@ class CustomMoleculeDataset(InMemoryDataset):
         else:
             self.raw_data.cal_weight_basic()
         super(CustomMoleculeDataset, self).__init__(root, transform, pre_transform, pre_filter)
-        (Path(self.processed_dir)/'pre_filter.pt').unlink()
-        (Path(self.processed_dir) / 'pre_transform.pt').unlink()
+        try:
+            (Path(self.processed_dir)/'pre_filter.pt').unlink()
+            (Path(self.processed_dir) / 'pre_transform.pt').unlink()
+        except FileNotFoundError:
+            pass
         self.data, self.slices = torch.load(self.processed_paths[0])
 
     @property

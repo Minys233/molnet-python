@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="molnet-python", # Replace with your own username
-    version="0.0.2",
+    version="0.0.3",
     author="Minys",
     license='MIT',
     author_email="minys@foxmail.com",
