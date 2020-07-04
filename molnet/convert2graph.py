@@ -105,6 +105,7 @@ def atom_features(atom, explicit_H=False, use_chirality=True, gasteiger_charges_
     results += [float(atom.GetProp('_GasteigerCharge')), float(atom.GetProp('_GasteigerHCharge'))]
     results = np.array(results)
     results[np.isnan(results)] = 0
+    results[np.isinf(results)] = 0
     return results
 
 
@@ -120,7 +121,10 @@ def bond_features(bond, use_chirality=True):
         bond_feats = bond_feats + one_of_k_encoding_unk(
             str(bond.GetStereo()),
             ["STEREONONE", "STEREOANY", "STEREOZ", "STEREOE"])
-    return np.array(bond_feats)
+    bond_feats = np.array(bond_feats)
+    bond_feats[np.isnan(bond_feats)] = 0
+    bond_feats[np.isinf(bond_feats)] = 0
+    return bond_feats
 
 
 def num_atom_features():
@@ -264,4 +268,16 @@ class CustomMoleculeDataset(InMemoryDataset):
 
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
+
+    def normalize(self, std_mean=None):
+        if std_mean is not None:
+            std, mean = std_mean
+        else:
+            std = (torch.std(self.data.x, dim=0), torch.std(self.data.edge_attr, dim=0))
+            mean = (torch.mean(self.data.x, dim=0), torch.mean(self.data.edge_attr, dim=0))
+
+        self.data.x = (self.data.x - mean[0]) / (std[0]+1e-10)
+        self.data.edge_attr = (self.data.edge_attr - mean[1]) / (std[1]+1e-10)
+        return std, mean
+
 
