@@ -1,18 +1,12 @@
 import molnet.convert2graph as cvt
+import molnet
 from rdkit import Chem
 
 
-smilst = open('test.smi').readlines()
-mollst = [Chem.MolFromSmiles(s) for s in smilst]
-mol = mollst[0]
-print(Chem.MolToSmiles(mol))
+train_mol, valid_mol, test_mol = molnet.load('BBBP', '../datasets')
 
-for idx, atom in enumerate(mol.GetAtoms()):
-    f = cvt.atom_features(atom)
-    print(idx, f[:13], f[13:19], f[19:21], f[21:27], f[27], f[27:32], f[32:36], f[36:])
+train_set = cvt.CustomMoleculeDataset('../datasets/bbbp', mols=train_mol.mols, y=train_mol.y, w=train_mol.w, name='BBBP_train')
+valid_set = cvt.CustomMoleculeDataset('../datasets/bbbp', mols=valid_mol.mols, y=valid_mol.y, w=valid_mol.w, name='BBBP_valid')
+test_set =  cvt.CustomMoleculeDataset('../datasets/bbbp', mols=test_mol.mols, y=test_mol.y, w=test_mol.w, name='BBBP_test')
 
-data = cvt.mol_to_pyG_data(mol)
-print(data)
-print(data.x.dtype)
-print(data.edge_attr.dtype)
-print(data.edge_index.dtype)
+print(train_set)

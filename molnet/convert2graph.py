@@ -252,8 +252,8 @@ class CustomMoleculeDataset(InMemoryDataset):
         labels, weights = self.raw_data.y, self.raw_data.w
         assert len(data_list) == len(labels) == len(weights)
         for idx, data in enumerate(data_list):
-            data.y = torch.tensor(labels[idx])
-            data.w = torch.tensor(weights[idx], dtype=torch.float)
+            data.y = torch.tensor(labels[idx, None])
+            data.w = torch.tensor(weights[idx, None], dtype=torch.float)
         if self.pre_filter is not None:
             data_list = [data for data in data_list if self.pre_filter(data)]
 
