@@ -103,7 +103,9 @@ def atom_features(atom, explicit_H=False, use_chirality=True, gasteiger_charges_
             results += [False, False] + [atom.HasProp('_ChiralityPossible')]
     calc_gasteiger_charges(atom)
     results += [float(atom.GetProp('_GasteigerCharge')), float(atom.GetProp('_GasteigerHCharge'))]
-    return np.array(results)
+    results = np.array(results)
+    results[np.isnan(results)] = 0
+    return results
 
 
 def bond_features(bond, use_chirality=True):

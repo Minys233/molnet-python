@@ -1,11 +1,12 @@
 import setuptools
+import molnet
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="molnet-python", # Replace with your own username
-    version="0.0.5",
+    version=molnet.__version__,
     author="Minys",
     license='MIT',
     author_email="minys@foxmail.com",
