@@ -1,5 +1,6 @@
 import molnet
 from pathlib import Path
+import sys
 import torch
 from torch_geometric.data import Data
 from torch_geometric.data import InMemoryDataset
@@ -251,7 +252,7 @@ class CustomMoleculeDataset(InMemoryDataset):
         return [f'{self.name}_{len(self.raw_data)}.pt']
 
     def download(self):
-        print('Dummy download function invoked')
+        print('Dummy download function invoked', file=sys.stderr)
 
     def process(self):
         data_list = [mol_to_pyG_data(mol) for mol in self.raw_data.mols]

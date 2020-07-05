@@ -2,6 +2,7 @@ import requests
 import tqdm
 from pathlib import Path
 import zipfile
+import sys
 
 from molnet.utils import md5
 from molnet.molnet_config import molnet_config
@@ -20,13 +21,13 @@ def download(dataset, dest='/tmp'):
                     f.write(data)
                     pbar.update(len(data))
     else:
-        print("Dataset file already downloaded.")
+        print("Dataset file already downloaded.", file=sys.stderr)
     if fpath.suffix == '.zip':
         if not (fpath.parent / fpath.stem).is_dir():
             with zipfile.ZipFile(fpath, 'r') as zip_ref:
                 zip_ref.extractall(fpath.parent / fpath.stem)
         else:
-            print("Dataset file already unzipped")
+            print("Dataset file already unzipped", file=sys.stderr)
     return fpath
 
 

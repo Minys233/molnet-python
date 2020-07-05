@@ -7,7 +7,7 @@ from molnet.splitter import ScaffoldSplitter, RandomSplitter
 # from molnet.convert2graph import
 from pathlib import Path
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 
 molnet_list = list(molnet_config.keys())
 

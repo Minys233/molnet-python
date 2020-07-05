@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 from rdkit.Chem.Scaffolds import MurckoScaffold
 from rdkit import Chem
 import numpy as np
@@ -32,7 +33,7 @@ class Splitter(object):
         p = Path(self.save_to)
         if not (p/name).is_file():
             return None
-        print(f'Loading splits from cached file: {p/name}')
+        print(f'Loading splits from cached file: {p/name}', file=sys.stderr)
         obj = cloudpickle.load(open(p/name, 'rb'))
         return obj
 
@@ -139,7 +140,7 @@ class ScaffoldSplitter(Splitter):
         """
         np.testing.assert_almost_equal(frac_train + frac_valid + frac_test, 1.)
         if seed is not None:
-            print("Scaffold split is not a random procedure, so seed is useless here")
+            print("Scaffold split is not a random procedure, so seed is useless here", file=sys.stderr)
         scaffolds = {}
         for ind, smiles in enumerate(dataset.mols):
             scaffold = generate_scaffold(smiles)
