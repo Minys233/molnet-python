@@ -7,7 +7,7 @@ from molnet.splitter import ScaffoldSplitter, RandomSplitter
 # from molnet.convert2graph import
 from pathlib import Path
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 
 molnet_list = list(molnet_config.keys())
 
@@ -16,16 +16,17 @@ for name in molnet_list:
     molnet_config[name].add_load_fn(fn)
 
 
-def load(name, datadir, save_whole_dataset=False, save_split=False, split=None, seed=None):
+def load(name, datadir, save_whole_dataset=False, save_split=False, split=None, split_method_override=None, seed=None):
     """
 
     :param name: Dataset name
     :param datadir: where to store downloaded and extracted and saved data
     :param save_whole_dataset: save pickled dataset, with extracted molecules and target
     :param save_split: save splitting results
-    :param split:
-    :param seed:
-    :return:
+    :param split: split ratio, None: default 8/1/1 split; (x, x, x): train/valid/test; (x, x) train/test; int: K-fold cross validation
+    :param split_method_override: override default splitter, choice [RandomSplitter, ScaffoldSplitter]
+    :param seed: random seed for RandomSplitter, useless when dataset is splitted by scaffold
+    :return: molecule datasets
     """
     if split is None:
         split = (0.8, 0.1, 0.1)
@@ -54,6 +55,9 @@ def load(name, datadir, save_whole_dataset=False, save_split=False, split=None, 
         # TODO: stratidied splitter (normally random split is enough)
         assert molnet_config[name].split == 'stratified'
         spl = RandomSplitter(save_to=save_split)
+    # override default splitter
+    if split_method_override is not None:
+        spl = getattr(molnet.splitter, split_method_override)(save_to=save_split)
 
     split_fn = getattr(spl, split_method)
     if split_method == 'train_valid_test_split':
